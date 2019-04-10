@@ -8,9 +8,7 @@ class App extends Component {
       <div className="App">
         <header className="App-header">
           <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
+          <Welcome text="Welcome to React, Edit me now!"/>
           <a
             className="App-link"
             href="https://reactjs.org"
@@ -22,6 +20,17 @@ class App extends Component {
         </header>
       </div>
     );
+  }
+}
+
+class Welcome extends Component {
+  render() {
+    const { text } = this.props;
+    return (
+      <p>
+        {text}
+      </p>
+    )
   }
 }
 
