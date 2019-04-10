@@ -3,12 +3,24 @@ import logo from './logo.svg';
 import './App.css';
 
 class App extends Component {
+
+  state = {
+    toggle: true
+  }
+
+  clickHandler = () => {
+    this.setState({
+      toggle: !this.state.toggle
+    })
+  }
+
   render() {
     return (
       <div className="App">
         <header className="App-header">
           <img src={logo} className="App-logo" alt="logo" />
-          <Welcome text="Welcome to React, Edit me now!"/>
+          <Welcome text="Welcome to React, Edit me now!"  toggle={this.state.toggle}/>
+          <button onClick={this.clickHandler}>Toggle Text</button>
           <a
             className="App-link"
             href="https://reactjs.org"
@@ -17,6 +29,10 @@ class App extends Component {
           >
             Learn React
           </a>
+          {this.state.toggle && 
+            <p>This should show and hide</p>
+          }
+          
         </header>
       </div>
     );
@@ -25,11 +41,11 @@ class App extends Component {
 
 class Welcome extends Component {
   render() {
-    const { text } = this.props;
+    const { text, toggle } = this.props;
+    console.log(toggle)
     return (
-      <p>
-        {text}
-      </p>
+
+      <p>{toggle && text}</p> //only shows text if toggle is true.
     )
   }
 }
