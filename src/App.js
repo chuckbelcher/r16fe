@@ -1,53 +1,41 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
+import Movie from './Movie'
+
 
 class App extends Component {
-
   state = {
-    toggle: true
+    movies: []
   }
 
-  clickHandler = () => {
-    this.setState({
-      toggle: !this.state.toggle
-    })
+  async componentDidMount() {
+    try {
+      const res = await fetch('https://api.themoviedb.org/3/discover/movie?api_key=d5c2b32407e3b55f5f9bbe921cac355c&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1')
+      const movies = await res.json();
+      this.setState({
+        movies: movies.results
+      }) 
+    } catch(e) {
+      console.log(e)
+    }
   }
 
   render() {
+    console.log(this.state.movies)
     return (
       <div className="App">
         <header className="App-header">
           <img src={logo} className="App-logo" alt="logo" />
-          <Welcome text="Welcome to React, Edit me now!"  toggle={this.state.toggle}/>
-          <button onClick={this.clickHandler}>Toggle Text</button>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-          {this.state.toggle && 
-            <p>This should show and hide</p>
-          }
-          
         </header>
+        {this.state.movies.map((movie)=> (
+          <Movie key={movie.id} movie = {movie}  />
+        ))}
       </div>
     );
   }
 }
 
-class Welcome extends Component {
-  render() {
-    const { text, toggle } = this.props;
-    console.log(toggle)
-    return (
 
-      <p>{toggle && text}</p> //only shows text if toggle is true.
-    )
-  }
-}
 
 export default App;
